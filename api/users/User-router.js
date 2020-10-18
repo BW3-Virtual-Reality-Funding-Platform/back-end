@@ -1,28 +1,28 @@
 const express = require("express");
-const db = require("./project-model.js");
+const db = require("./user-model.js");
 const router = express.Router();
 
-// get all projects
+// get all users
 router.get("/", (req, res) => {
   db.getAll()
-    .then((projects) => {
-      res.status(200).json({ data: projects });
+    .then((users) => {
+      res.status(200).json({ data: users });
     })
     .catch((err) => {
       res.status(500).json({ error: err.message });
     });
 });
 
-// get project by id
+// get user by id
 router.get("/:id", (req, res) => {
   const id = req.params.id;
 
   db.getById(id)
-    .then((project) => {
-      if (project) {
-        res.json({ project });
+    .then((user) => {
+      if (user) {
+        res.json({ user });
       } else {
-        res.status(404).json({ message: "Project not found. Check id." });
+        res.status(404).json({ message: "user not found. Check id." });
       }
     })
     .catch((err) => {
@@ -30,29 +30,29 @@ router.get("/:id", (req, res) => {
     });
 });
 
-// add project
+// add user
 router.post("/", (req, res) => {
   const details = req.body;
   db.insert(details)
-    .then((project) => {
-      res.status(201).json({ project });
+    .then((user) => {
+      res.status(201).json({ user });
     })
     .catch((err) => {
       res.status(500).json({ error: err.message });
     });
 });
 
-// edit project by id
+// edit user info
 router.put("/:id", (req, res) => {
   const id = req.params.id;
   const changes = req.body;
 
   db.edit(id, changes)
-    .then((project) => {
-      if (project) {
-        res.status(200).json({ project });
+    .then((user) => {
+      if (user) {
+        res.status(200).json({ user });
       } else {
-        res.status(404).json({ message: "Could not find project. Check id. " });
+        res.status(404).json({ message: "Could not find user. Check id. " });
       }
     })
     .catch((err) => {
@@ -60,16 +60,16 @@ router.put("/:id", (req, res) => {
     });
 });
 
-// delete project
+// delete user
 router.delete("/:id", (req, res) => {
   const id = req.params.id;
 
   db.remove(id)
-    .then((project) => {
-      if (project) {
-        res.status(200).json({ removed: project });
+    .then((user) => {
+      if (user) {
+        res.status(200).json({ removed: user });
       } else {
-        res.status(404).json({ message: "Could not find project. Check id. " });
+        res.status(404).json({ message: "Could not find user. Check id. " });
       }
     })
     .catch((err) => {
