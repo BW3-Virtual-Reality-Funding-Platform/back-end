@@ -2,8 +2,8 @@ const db = require("../../database/connection.js");
 
 module.exports = {
   getAll,
-  getById,
-  insert,
+  getBy,
+  add,
   edit,
   remove,
 };
@@ -12,11 +12,15 @@ function getAll() {
   return db("users");
 }
 
+function getBy(info) {
+  return db("users").where(info).orderBy("id");
+}
+
 function getById(id) {
   return db("users").where({ id }).first();
 }
 
-async function insert(details) {
+async function add(details) {
   try {
     const [id] = await db("users").insert(details, "id");
     return getById(id);

@@ -31,7 +31,7 @@ router.get("/:id", (req, res) => {
 });
 
 // add project
-router.post("/", (req, res) => {
+router.post("/add", (req, res) => {
   const details = req.body;
   db.insert(details)
     .then((project) => {

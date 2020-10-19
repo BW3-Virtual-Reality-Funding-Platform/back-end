@@ -1,6 +1,7 @@
 const express = require("express");
 const db = require("./user-model.js");
 const router = express.Router();
+const bcryptjs = require("bcryptjs");
 
 // get all users
 router.get("/", (req, res) => {
@@ -30,12 +31,39 @@ router.get("/:id", (req, res) => {
     });
 });
 
-// add user
-router.post("/", (req, res) => {
-  const details = req.body;
-  db.insert(details)
+// login
+router.post("/login", (req, res) => {
+  const credentials = req.body;
+
+  db.getBy({ username: credentials.username })
+    .then((users) => {
+      const user = users[0];
+      if (user && bcryptjs.compareSync(credentials.password, user.password)) {
+        req.session.username = user.username;
+        console.log(req.session);
+        res
+          .status(200)
+          .json({ message: "welcome", username: req.body.username });
+      } else {
+        res.status(401).json({ message: "invalid credentials" });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err.message });
+    });
+});
+
+// register
+router.post("/register", (req, res) => {
+  const credentials = req.body;
+  const rounds = Number(process.env.HASH_ROUNDS) || 6;
+  const hash = bcryptjs.hashSync(credentials.password, rounds);
+
+  credentials.password = hash;
+
+  db.add(credentials)
     .then((user) => {
-      res.status(201).json({ user });
+      res.status(201).json({ data: user });
     })
     .catch((err) => {
       res.status(500).json({ error: err.message });
