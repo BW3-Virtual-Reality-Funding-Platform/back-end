@@ -57,7 +57,6 @@ router.post("/login", (req, res) => {
       const user = users[0];
       if (user && bcryptjs.compareSync(credentials.password, user.password)) {
         req.session.username = user.username;
-        console.log(req.session);
         res
           .status(200)
           .json({ message: "welcome", username: req.body.username });

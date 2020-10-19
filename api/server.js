@@ -7,6 +7,7 @@ const KnexSessionStore = require("connect-session-knex")(session);
 const connection = require("../database/connection.js");
 const ProjectRouter = require("./projects/Project-router.js");
 const UserRouter = require("./users/User-router.js");
+const StriperRouter = require("./payments/stripe/stripe.js");
 
 const server = express();
 
@@ -36,6 +37,7 @@ server.use(session(sessionConfiguration));
 
 server.use("/api/projects", ProjectRouter);
 server.use("/api/users", UserRouter);
+server.use("/api/payments", StriperRouter);
 
 server.get("/", (req, res) => {
   res.status(200).json({ api: "up" });
