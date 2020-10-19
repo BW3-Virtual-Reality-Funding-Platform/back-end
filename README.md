@@ -8,6 +8,7 @@ URL: https://kick-starter-clone.herokuapp.com/
 | ---------- | ------------------- | ------------------------------ | ----------------------------------------------------------------- |
 | **Method** | **Endpoint**        | **Description**                | **Calls For**                                                     |  |
 | GET        | /api/users          | Get a list of all users        |                                                                   |
+| GET        | /api/users/logout   | Logout & end session           |                                                                   |
 | POST       | /api/users/register | Add a new user                 |                                                                   |
 | POST       | /api/users/login    | Login                          |                                                                   |
 | PUT        | /api/users/:id      | Edit an existing users details | - ID in the url <br/>- Username (string)<br/> - Password (string) |

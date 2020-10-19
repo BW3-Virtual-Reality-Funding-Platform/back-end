@@ -14,6 +14,23 @@ router.get("/", (req, res) => {
     });
 });
 
+// logout & destroy session
+router.get("/logout", (req, res) => {
+  if (req.session) {
+    req.session.destroy((err) => {
+      if (err) {
+        res.status(500).json({
+          message: "Could not log out at this time. Please try again later.",
+        });
+      } else {
+        res.status(204).end();
+      }
+    });
+  } else {
+    res.status(204).end();
+  }
+});
+
 // get user by id
 router.get("/:id", (req, res) => {
   const id = req.params.id;
