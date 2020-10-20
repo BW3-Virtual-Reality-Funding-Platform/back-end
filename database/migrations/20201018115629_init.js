@@ -7,6 +7,7 @@ exports.up = function (knex) {
         users.increments();
 
         users.string("username", 128).notNullable().unique();
+        users.string("email", 128).notNullable().unique();
         users.string("password", 128).notNullable();
       })
       // Projects Table
@@ -15,6 +16,11 @@ exports.up = function (knex) {
 
         projects.string("title", 256).notNullable().unique();
         projects.string("description", 256).notNullable();
+        projects.string("img_url", 256);
+        projects.date("fund_date").notNullable();
+        projects.integer("total_funded").unsigned().defaultTo(0);
+        projects.integer("funding_goal").unsigned().notNullable();
+        // connect project with the user that created it
         projects
           .integer("user_id")
           .unsigned()
