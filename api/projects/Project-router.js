@@ -2,17 +2,6 @@ const express = require("express");
 const db = require("./project-model.js");
 const router = express.Router();
 
-// get all projects
-router.get("/", (req, res) => {
-  db.getAll()
-    .then((projects) => {
-      res.status(200).json({ data: projects });
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
-    });
-});
-
 // get project by id
 router.get("/:id", (req, res) => {
   const id = req.params.id;

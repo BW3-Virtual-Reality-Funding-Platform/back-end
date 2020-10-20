@@ -6,6 +6,7 @@ module.exports = {
   add,
   edit,
   remove,
+  getById,
 };
 
 function getAll() {

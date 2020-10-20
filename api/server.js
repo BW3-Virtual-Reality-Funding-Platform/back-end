@@ -8,6 +8,8 @@ const connection = require("../database/connection.js");
 const ProjectRouter = require("./projects/Project-router.js");
 const UserRouter = require("./users/User-router.js");
 const StriperRouter = require("./payments/stripe/stripe.js");
+const AuthRouter = require("./auth/auth-router.js");
+const protected = require("./auth/restricted-mw.js");
 
 const server = express();
 
@@ -36,7 +38,8 @@ server.use(express.json());
 server.use(session(sessionConfiguration));
 
 server.use("/api/projects", ProjectRouter);
-server.use("/api/users", UserRouter);
+server.use("/api/users", protected, UserRouter);
+server.use("/api/auth", AuthRouter);
 server.use("/api/payments", StriperRouter);
 
 server.get("/", (req, res) => {
