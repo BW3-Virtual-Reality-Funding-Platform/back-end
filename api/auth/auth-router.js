@@ -3,6 +3,7 @@ const db = require("../users/user-model.js");
 const project = require("../projects/project-model.js");
 const router = express.Router();
 const bcryptjs = require("bcryptjs");
+const { jwtSecret } = require("../config.js");
 
 // USERS
 
@@ -32,9 +33,8 @@ router.post("/login", (req, res) => {
       const user = users[0];
       if (user && bcryptjs.compareSync(credentials.password, user.password)) {
         req.session.username = user.username;
-        res
-          .status(200)
-          .json({ message: "welcome", username: req.body.username });
+        const token = getJwt(user);
+        res.status(200).json({ message: "welcome", token });
       } else {
         res.status(401).json({ message: "invalid credentials" });
       }
@@ -74,5 +74,18 @@ router.get("/", (req, res) => {
       res.status(500).json({ error: err.message });
     });
 });
+
+function getJwt(user) {
+  const payload = {
+    username: user.username,
+    role: user.role,
+  };
+
+  const jwtOptions = {
+    expiresIn: "8h",
+  };
+
+  return jwtOptions.sign(payload, jwtSecret, jwtOptions);
+}
 
 module.exports = router;
