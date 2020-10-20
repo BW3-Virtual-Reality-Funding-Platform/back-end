@@ -3,6 +3,7 @@ const db = require("../users/user-model.js");
 const project = require("../projects/project-model.js");
 const router = express.Router();
 const bcryptjs = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const { jwtSecret } = require("../config.js");
 
 // USERS
@@ -85,7 +86,7 @@ function getJwt(user) {
     expiresIn: "8h",
   };
 
-  return jwtOptions.sign(payload, jwtSecret, jwtOptions);
+  return jwt.sign(payload, jwtSecret, jwtOptions);
 }
 
 module.exports = router;
