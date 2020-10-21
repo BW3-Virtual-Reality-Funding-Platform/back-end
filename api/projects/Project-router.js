@@ -2,7 +2,7 @@ const express = require("express");
 const db = require("./project-model.js");
 const router = express.Router();
 
-// get project by id
+// get all projects
 router.get("/", (req, res) => {
   db.getAll()
     .then((projects) => {
