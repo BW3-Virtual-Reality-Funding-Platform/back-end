@@ -35,7 +35,7 @@ router.post("/login", (req, res) => {
       if (user && bcryptjs.compareSync(credentials.password, user.password)) {
         req.session.username = user.username;
         const token = getJwt(user);
-        res.status(200).json({ message: "welcome", token });
+        res.status(200).json({ message: "welcome", data: user, token });
       } else {
         res.status(401).json({ message: "invalid credentials" });
       }
