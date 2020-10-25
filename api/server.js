@@ -5,7 +5,7 @@ const session = require("express-session");
 const KnexSessionStore = require("connect-session-knex")(session);
 
 const connection = require("../database/connection.js");
-const ProjectRouter = require("./projects/Project-router.js");
+const ProjectRouter = require("./projects/Project-router");
 const UserRouter = require("./users/User-router.js");
 const StriperRouter = require("./payments/stripe/stripe.js");
 const AuthRouter = require("./auth/auth-router.js");
